@@ -1,48 +1,65 @@
-#include <iostream>
-#include <math.h>
 #include "header.h"
+using namespace std;
 
+//A function that print the calculation result as a double type
+void print_answer_as_double(double answer) {
+    fixed(cout);
+    //if the answer is an intiger - print one digit after the point:
+    if (int(answer) == answer) {
+        cout.precision(1);
+        cout << answer << endl;
+    }
+    //And if the result is a double  - print one digit after the point:
+    else{
+        cout.precision(4);
+        cout << answer << endl;
+    }
+}
 
-float Calculator::euclidian_distance_function(int* vec1, int* vec2, int array_size) {
-    float sum = 0.0;
-    for(int i = 0; i < array_size; i++) {
+//A function that calculate the distance between two vectors by using the euclidean distance algorithm:
+void euclidian_distance_function(vector<double> vec1, vector<double> vec2, int vec_size) {
+    double sum = 0.0;
+    for(int i = 0; i < vec_size; i++) {
         sum += pow(vec1[i]-vec2[i], 2);
     }
-    return sqrt(sum);
+    print_answer_as_double(sqrt(sum));
 }
 
-float Calculator::manheten_distance_function(int* vec1, int* vec2, int array_size) {
-    float sum = 0.0;
-    for(int i = 0; i < array_size; i++) {
+//A function that calculate the distance between two vectors by using the manheten distance algorithm:
+void manheten_distance_function(vector<double> vec1, vector<double> vec2, int vec_size) {
+    double sum = 0.0;
+    for(int i = 0; i < vec_size; i++) {
         sum += abs(vec1[i]-vec2[i]);
     }
-    return sum;
+    print_answer_as_double(sum);
 }
 
-float Calculator::chebyshev_distance_function(int* vec1, int* vec2, int array_size) {
-    float max = 0.0;
-    for(int i = 0; i < array_size; i++) {
-        float z = abs(vec1[i]-vec2[i]);
+//A function that calculate the distance between two vectors by using the chebyshev distance algorithm:
+void chebyshev_distance_function(vector<double> vec1, vector<double> vec2, int vec_size) {
+    double max = 0.0;
+    for(int i = 0; i < vec_size; i++) {
+        double z = abs(vec1[i]-vec2[i]);
         if(z > max){ max = z;}
     }
-    return max;
+    print_answer_as_double(max);
 }
 
-float Calculator::canberra_distance_function(int* vec1, int* vec2, int array_size) {
-    float sum = 0.0;
-    for(int i = 0; i < array_size; i++) {
-        float nome = abs(vec1[i]-vec2[i]);
-        float denome = abs(vec1[i]) + abs(vec2[i]);
+//A function that calculate the distance between two vectors by using the canberra distance algorithm:
+void canberra_distance_function(vector<double> vec1, vector<double> vec2, int vec_size) {
+    double sum = 0.0;
+    for(int i = 0; i < vec_size; i++) {
+        double nome = abs(vec1[i]-vec2[i]);
+        double denome = abs(vec1[i]) + abs(vec2[i]);
         sum += nome / denome;
     }
-    return sum;
+    print_answer_as_double(sum);
 }
-
-float Calculator::minkowski_distance_function(int* vec1, int* vec2, int array_size) {
-    float sum = 0.0;
-    for(int i = 0; i < array_size; i++) {
-        float z = abs(vec1[i]-vec2[i]);
+//A function that calculate the distance between two vectors by using the minkowski distance algorithm:
+void minkowski_distance_function(vector<double> vec1, vector<double> vec2, int vec_size) {
+    double sum = 0.0;
+    for(int i = 0; i < vec_size; i++) {
+        double z = abs(vec1[i]-vec2[i]);
         sum += pow(z, 2);
     }
-    return pow(sum, 0.5);
+    print_answer_as_double(pow(sum, 0.5));
 }

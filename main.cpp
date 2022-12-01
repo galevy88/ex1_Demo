@@ -1,47 +1,46 @@
-#include <string>
-#include <iomanip>
-#include <iostream>
-#include <math.h>
-#include "Calculator.cpp"
+#include "header.h"
 
 using namespace std;
-
-int input_check(string vec1_input, string vec2_input) {
-    int size_vec_1 = vec1_input.length();
-    int size_vec_2 = vec2_input.length();
-
-    if(size_vec_1 != size_vec_2) {
-        cout << "Invalid Input - Vectors Size Must Be Equal";
-        return -1;
+// Check either the vectors are with the sae ssize or not
+void check_size(int size1, int size2) {
+    if(size1 != size2) {
+        cout << "Invalid Input - Please Refer To README.md File And Try Again :)"; exit(0);
     }
-    return 0;
 }
 
+// Parsing the input which got as string into a vector with double type variabls
+vector<double> parser(string string_Vector) {
+    vector<double> Vector;
+    string current;
+
+    for(int i = 0; i <= string_Vector.length(); i++)
+    {
+        if(string_Vector[i] == ' ' || string_Vector[i] == '\0') 
+        {
+            try { Vector.push_back(stod(current)); current = ""; } 
+            catch (...) { cout << "Invalid Input - Please Refer To README.md File And Try Again :)"; exit(0); }
+        }
+        else { current += string_Vector[i]; }
+    }
+    return Vector;
+}
+
+
+// Getting input from the client and fetching the results to the disnaces functions
 int main()
 {
-    std::cout << std::setprecision(15);
-    string vec1_input, vec2_input;
-    getline(cin, vec1_input);
-    getline(cin, vec2_input);
-    if(input_check(vec1_input, vec2_input) == -1) { return -1; }
+    string vec_input;
+    getline(cin, vec_input);
 
-    int size_vec_1 = vec1_input.length();
-    int array_size = (size_vec_1 / 2) + 1;
-    int* vec1 = new int[array_size]; int* holder1 = vec1;
-    int* vec2 = new int[array_size]; int* holder2 = vec2;
+    vector<double> vec = parser(vec_input);
+    int vec_size = vec.size();
 
-    for(int i = 0; i < size_vec_1; i++) {
-        if(i%2 == 0) {
-            *vec1 = int(vec1_input[i]) - 48; vec1++;
-            *vec2 = int(vec2_input[i]) - 48; vec2++;
-        }
-    }
-    vec1 = holder1; vec2 = holder2;
-
-    Calculator calculator;
-    cout << calculator.euclidian_distance_function(vec1, vec2, array_size) << "\n";
-    cout << calculator.manheten_distance_function(vec1, vec2, array_size) << "\n";
-    cout << calculator.chebyshev_distance_function(vec1, vec2, array_size) << "\n";
-    cout << calculator.canberra_distance_function(vec1, vec2, array_size) << "\n";
-    cout << calculator.minkowski_distance_function(vec1, vec2, array_size) << "\n";
+    string iris_str = "iris\\iris_classified.csv";
+    string beans_str = "beans\\beans_Classified.csv";
+    string wine_str = "wine\\wine_Classified.csv";
+    Data d(beans_str);
+    d.generate_data();
+    list<vector<double>> x_train = d.get_x_train();
+    list<int> y_train = d.get_y_train();
+    cout << x_train.size() << " " << y_train.size();
 }
