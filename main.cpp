@@ -47,14 +47,16 @@ int get_label_number(string label) {
 }
 
 //Getting input from the client and fetching the results to the disnaces functions
-int main()
+int main(int argc, char* argv[])
 {
     string vec_input;
     getline(cin, vec_input);
     vector<double> vec = parser(vec_input);    
     int vec_size = vec.size();
 
-    string csv_type = "iris_classified.csv";
+    int k = atoi(argv[1]);
+    string csv_type = argv[2];
+    string distance_function = argv[3];
 
     string iris_str; string beans_str; string wine_str;
     string chosen;
@@ -78,8 +80,7 @@ int main()
     d.generate_data();
     vector<vector<double>> x_train = d.get_x_train();
     vector<int> y_train = d.get_y_train();
-    // vector<double> sample = {6.4,2.9,4.3,1.3};
-    int k = 3;
-    int imax = KNN(x_train, y_train, vec, k, "AUC");
+    
+    int imax = KNN(x_train, y_train, vec, k, distance_function);
     cout << "The classification is: " << imax;
 }
