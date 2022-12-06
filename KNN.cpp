@@ -24,7 +24,9 @@ int KNN(vector< vector<double> > x_train, vector<int> y_train, vector<double> sa
 
     // Calculate distances between point sample and all x_train in x_train
     for (int i = 0; i < x_train.size(); i++) {
+
         double distance = 0;
+
         if(func == "AUC") { distance = euclidian_distance_function(sample, x_train[i]); }
         if(func == "MAN") { distance = manheten_distance_function(sample, x_train[i]); }
         if(func == "CHB") { distance = chebyshev_distance_function(sample, x_train[i]); }
@@ -32,18 +34,22 @@ int KNN(vector< vector<double> > x_train, vector<int> y_train, vector<double> sa
         if(func == "MIN") { distance = minkowski_distance_function(sample, x_train[i]); }
         distances.push_back(make_pair(distance, i));
     }
+    
 
     vector< pair<double, int> > sorted;
     sorted = bubbleSort(distances);
 
+    
     // Take the first k distances
     vector<int> neighbors;
     for (int i = 0; i < k; i++) { 
         neighbors.push_back(sorted[i].second); 
     }
-    // for (int i =0; i < neighbors.size(); i++) {
-    //   cout << neighbors[i] << " ";
-    // }
+    
+     for (int i =0; i < neighbors.size(); i++) {
+       cout << neighbors[i] << " ";
+     }
+     
     int monim[y_train.size()] = {};
     for (int i = 0; i < neighbors.size(); i++) {
         monim[y_train[neighbors[i]]]++; 
