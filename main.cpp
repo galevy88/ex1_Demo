@@ -25,22 +25,61 @@ vector<double> parser(string string_Vector) {
     return Vector;
 }
 
+int get_label_number(string label) {
+    
+    if(label == "Iris-setosa") { return 0; }
+    if(label == "Iris-versicolor") { return 1; }
+    if(label == "Iris-virginica") { return 2; }
 
-// Getting input from the client and fetching the results to the disnaces functions
+    if(label == "red wine") { return 0; }
+    if(label == "white wine") { return 1; }
+    if(label == "Sparkling wine") { return 2; }
+
+    if(label == "SEKER") { return 0; }
+    if(label == "BARBUNYA") { return 1; }
+    if(label == "BOMBAY") { return 2; }
+    if(label == "CALI") { return 3; }
+    if(label == "HOROZ") { return 4; }
+    if(label == "SIRA") { return 5; }
+    if(label == "DERMASON") { return 6; }
+    
+    return -1;
+}
+
+//Getting input from the client and fetching the results to the disnaces functions
 int main()
 {
     string vec_input;
     getline(cin, vec_input);
-
-    vector<double> vec = parser(vec_input);
+    vector<double> vec = parser(vec_input);    
     int vec_size = vec.size();
 
-    string iris_str = "iris\\iris_classified.csv";
-    string beans_str = "beans\\beans_Classified.csv";
-    string wine_str = "wine\\wine_Classified.csv";
-    Data d(beans_str);
+    string csv_type = "iris_classified.csv";
+
+    string iris_str; string beans_str; string wine_str;
+    string chosen;
+    if(csv_type == "iris_classified.csv") {
+        iris_str = "iris\\" + csv_type;
+        chosen = iris_str;
+    }
+    
+    if(csv_type == "beans_classified.csv") {
+        beans_str = "beans\\" + csv_type;
+        chosen = beans_str;
+    }
+
+   if(csv_type == "wine_classified.csv") {
+        wine_str = "wine\\" + csv_type;
+        chosen = wine_str;
+    }
+
+
+    Data d(chosen);
     d.generate_data();
-    list<vector<double>> x_train = d.get_x_train();
-    list<int> y_train = d.get_y_train();
-    cout << x_train.size() << " " << y_train.size();
+    vector<vector<double>> x_train = d.get_x_train();
+    vector<int> y_train = d.get_y_train();
+    // vector<double> sample = {6.4,2.9,4.3,1.3};
+    int k = 3;
+    int imax = KNN(x_train, y_train, vec, k, "AUC");
+    cout << "The classification is: " << imax;
 }

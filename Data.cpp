@@ -20,13 +20,14 @@ vector<double> Data::parser(string string_Vector, int stop_idx) {
 
 
 string Data::reverse(string str) {
-    int i = str.length();
-    string true_label = "";
-    for(i; i >= 0; i--) { true_label += str[i]; }
+    int i = str.size() - 1;
+    string true_label;
+    for(i; i > 0; i--) { true_label += str[i]; }
     return true_label;
 }
 
 int Data::get_label_number(string label) {
+    
     if(label == "Iris-setosa") { return 0; }
     if(label == "Iris-versicolor") { return 1; }
     if(label == "Iris-virginica") { return 2; }
@@ -47,20 +48,24 @@ int Data::get_label_number(string label) {
 }
 
 void Data::create_split(string line, vector<double>& vec, int& label_num) {
-    int line_length = line.length(); int i = line_length;
+    int line_length = line.size(); 
+    int i = line_length;
     string label = "";
     int idx_of_split;
-    for(i; i >= 0; i--) {
+    for(i; i > 0; i--) {
         if(line[i] == ',') { idx_of_split = i; break; }
         else{ label += line[i]; }
     }
-    label_num = get_label_number(reverse(label));
+    string r = reverse(label);
+    //cout << label.size() << " " << r.size() << "\n";
+    label_num = get_label_number(r);
+    //cout << reverse(label) << " " << label_num << "\n";
     vec = parser(line, idx_of_split);
 }
 
 
-list<vector<double>> Data::get_x_train() { return this->x_train; }
-list<int> Data::get_y_train() { return this->y_train; }
+vector<vector<double>> Data::get_x_train() { return this->x_train; }
+vector<int> Data::get_y_train() { return this->y_train; }
 
 void Data::generate_data() {
 ifstream inputFile; inputFile.open("datasets\\" + this->path);
@@ -70,7 +75,8 @@ int label;
 while(getline(inputFile, line)) {
     create_split(line , current_vec, label);
     line = ""; 
-    this->x_train.push_back(current_vec); this->y_train.push_back(label);
+    this->x_train.push_back(current_vec);
+    this->y_train.push_back(label);
     } 
 }
 
