@@ -35,7 +35,9 @@ int KNN(vector< vector<double> > x_train, vector<int> y_train, vector<double> sa
 
     vector< pair<double, int> > sorted;
     sorted = bubbleSort(distances);
-
+    for (int i =0; i < sorted.size(); i++) {
+      cout << "double: " << sorted[i].first << "int: " << sorted[i].second << "\n";
+    }
     // Take the first k distances
     vector<int> neighbors;
     for (int i = 0; i < k; i++) { 
@@ -43,9 +45,12 @@ int KNN(vector< vector<double> > x_train, vector<int> y_train, vector<double> sa
     }
     int monim[y_train.size()];
     for(int i = 0; i < y_train.size(); i++) { monim[i] = 0; }
+    for(int i =0; i < y_train.size(); i++){ cout << monim[i] << " ";} 
     for (int i = 0; i < neighbors.size(); i++) {
         monim[y_train[neighbors[i]]]++; 
     }
+    cout << "\n";
+    for(int i =0; i < y_train.size(); i++){ cout << monim[i] << " ";} 
     int imax = 0;
     int max = 0;
     for (int i = 0; i < y_train.size(); i++) {

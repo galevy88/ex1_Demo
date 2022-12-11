@@ -74,6 +74,15 @@ string get_label_classify(string csv_type, int label) {
 }
 
 
+void print_vec(vector<vector<double> > x_train) {
+    for(int i =0; i < x_train.size(); i++) {
+        for(int j =0; j < x_train[i].size(); j++) {
+            cout << x_train[i][j] << " ";
+        }
+        cout << "\n";
+    }
+}
+
 
 //Getting input from the client and fetching the results to the disnaces functions
 int main(int argc, char* argv[])
@@ -94,6 +103,7 @@ int main(int argc, char* argv[])
     Data d(chosen);
     d.generate_data();
     vector<vector<double> > x_train = d.get_x_train();
+    //print_vec(x_train);
     vector<int> y_train = d.get_y_train();
     
     int imax = KNN(x_train, y_train, vec, k, distance_function);
