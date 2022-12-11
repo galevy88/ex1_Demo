@@ -18,7 +18,7 @@ vector< pair<double, int> > bubbleSort(vector< pair<double, int> > v) {
 }
 
 // Find k nearest neighbors of point sample
-int KNN(vector< vector<double> > x_train, vector<int> y_train, vector<double> sample, int k, string func) {
+int KNN(vector< vector<double> > x_train, vector<int> y_train, vector<double> sample, int k, string func, int labels_number) {
     vector< pair<double, int> > distances;
     int vec_size = x_train.size();
   
@@ -35,25 +35,23 @@ int KNN(vector< vector<double> > x_train, vector<int> y_train, vector<double> sa
 
     vector< pair<double, int> > sorted;
     sorted = bubbleSort(distances);
-    for (int i =0; i < sorted.size(); i++) {
-      cout << "double: " << sorted[i].first << "int: " << sorted[i].second << "\n";
-    }
+    // for (int i =0; i < sorted.size(); i++) { cout << "double: " << sorted[i].first << " int: " << sorted[i].second << " label: " << y_train[i]<< "\n"; } /***/
     // Take the first k distances
     vector<int> neighbors;
     for (int i = 0; i < k; i++) { 
         neighbors.push_back(sorted[i].second); 
     }
     int monim[y_train.size()];
-    for(int i = 0; i < y_train.size(); i++) { monim[i] = 0; }
-    for(int i =0; i < y_train.size(); i++){ cout << monim[i] << " ";} 
+    for(int i = 0; i < labels_number; i++) { monim[i] = 0; }
+    // for(int i =0; i < labels_number; i++){ cout << monim[i] << " ";} cout << "\n";  /**/
     for (int i = 0; i < neighbors.size(); i++) {
         monim[y_train[neighbors[i]]]++; 
     }
-    cout << "\n";
-    for(int i =0; i < y_train.size(); i++){ cout << monim[i] << " ";} 
+    //cout << "\n";
+    // for(int i =0; i < labels_number; i++){ cout << monim[i] << " ";} /**/
     int imax = 0;
     int max = 0;
-    for (int i = 0; i < y_train.size(); i++) {
+    for (int i = 0; i < labels_number; i++) {
         if (monim[i] > max) { max = monim[i]; imax = i; }
     }
       

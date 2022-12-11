@@ -84,6 +84,13 @@ void print_vec(vector<vector<double> > x_train) {
 }
 
 
+int get_labels_number(string csv_type) {
+    if(csv_type == "iris_classified.csv")  { return 3; }
+    if(csv_type == "wine_classified.csv") { return 3; }
+    if(csv_type == "beans_classified.csv") { return 6; }
+    return -1;
+}
+
 //Getting input from the client and fetching the results to the disnaces functions
 int main(int argc, char* argv[])
 { 
@@ -105,8 +112,8 @@ int main(int argc, char* argv[])
     vector<vector<double> > x_train = d.get_x_train();
     //print_vec(x_train);
     vector<int> y_train = d.get_y_train();
-    
-    int imax = KNN(x_train, y_train, vec, k, distance_function);
+    int labels_number = get_labels_number(csv_type);
+    int imax = KNN(x_train, y_train, vec, k, distance_function, labels_number);
     string classification = get_label_classify(csv_type, imax);
     cout << "The classification is: " << classification;
 }
