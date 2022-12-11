@@ -1,4 +1,5 @@
 #include "header.h"
+#include "Calculator.cpp"
 
 using namespace std;
 
@@ -40,7 +41,8 @@ int KNN(vector< vector<double> > x_train, vector<int> y_train, vector<double> sa
     for (int i = 0; i < k; i++) { 
         neighbors.push_back(sorted[i].second); 
     }
-    int monim[y_train.size()] = {};
+    int monim[y_train.size()];
+    for(int i = 0; i < y_train.size(); i++) { monim[i] = 0; }
     for (int i = 0; i < neighbors.size(); i++) {
         monim[y_train[neighbors[i]]]++; 
     }

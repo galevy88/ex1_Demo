@@ -1,5 +1,7 @@
 #include "header.h"
-#include "Data.h"
+//#include "Data.h"
+#include "Data.cpp"
+#include "KNN.cpp"
 using namespace std;
 
 // Check either the vectors are with the sae ssize or not
@@ -74,11 +76,14 @@ string get_label_classify(string csv_type, int label) {
 
 
 //Getting input from the client and fetching the results to the disnaces functions
-int main(int argc, char* argv[])
+int main()
 { 
-    int k = atoi(argv[1]);
-    string csv_type = argv[2];
-    string distance_function = argv[3];
+    // int k = atoi(argv[1]);
+    // string csv_type = argv[2];
+    // string distance_function = argv[3];
+    int k = 3;
+    string csv_type = "iris_classified.csv";
+    string distance_function = "AUC";
     check_args(k, csv_type, distance_function);
 
     string vec_input;
@@ -90,7 +95,7 @@ int main(int argc, char* argv[])
     string chosen = fetch_path(csv_type);
     Data d(chosen);
     d.generate_data();
-    vector<vector<double>> x_train = d.get_x_train();
+    vector<vector<double> > x_train = d.get_x_train();
     vector<int> y_train = d.get_y_train();
     
     int imax = KNN(x_train, y_train, vec, k, distance_function);
