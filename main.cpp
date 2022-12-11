@@ -1,7 +1,7 @@
 #include "header.h"
-//#include "Data.h"
-#include "Data.cpp"
-#include "KNN.cpp"
+#include "Data.h"
+
+
 using namespace std;
 
 // Check either the vectors are with the sae ssize or not
@@ -76,14 +76,12 @@ string get_label_classify(string csv_type, int label) {
 
 
 //Getting input from the client and fetching the results to the disnaces functions
-int main()
+int main(int argc, char* argv[])
 { 
-    // int k = atoi(argv[1]);
-    // string csv_type = argv[2];
-    // string distance_function = argv[3];
-    int k = 3;
-    string csv_type = "iris_classified.csv";
-    string distance_function = "AUC";
+
+    int k = atoi(argv[1]);
+    string csv_type = argv[2];
+    string distance_function = argv[3];
     check_args(k, csv_type, distance_function);
 
     string vec_input;

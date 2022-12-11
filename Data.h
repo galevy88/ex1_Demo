@@ -18,6 +18,6 @@ class Data {
     public:
     Data(const string path);
     void generate_data();
-    vector<vector<double>> get_x_train();
+    vector<vector<double> > get_x_train();
     vector<int> get_y_train();
 };
