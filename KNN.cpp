@@ -20,7 +20,7 @@ vector< pair<double, int> > bubbleSort(vector< pair<double, int> > v) {
 int KNN(vector< vector<double> > x_train, vector<int> y_train, vector<double> sample, int k, string func) {
     vector< pair<double, int> > distances;
     int vec_size = x_train.size();
-
+  
     // Calculate distances between point sample and all x_train in x_train
     for (int i = 0; i < x_train.size(); i++) {
         double distance = 0;
@@ -49,6 +49,6 @@ int KNN(vector< vector<double> > x_train, vector<int> y_train, vector<double> sa
     for (int i = 0; i < y_train.size(); i++) {
         if (monim[i] > max) { max = monim[i]; imax = i; }
     }
-
+      
     return imax;
 }
