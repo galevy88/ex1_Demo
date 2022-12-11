@@ -12,7 +12,7 @@
 using namespace std;
 
 // KNN moudle functions
-vector< pair<double, int> > bubbleSort(vector< pair<double, int> > v);
+vector< pair<double, int> > bubbleSort(vector< pair<double, int> > v, int size);
 int KNN(vector< vector<double> > x_train, vector<int> y_train, vector<double> sample, int k, string func, int labels_number);
 
 // Calculator moudle functions

@@ -21,9 +21,9 @@ void check_args(int size, string csv_type, string dist_func) {
 
 string fetch_path(string input) {
     string iris_str; string beans_str; string wine_str; string chosen;
-    if(input == "iris_classified.csv") { iris_str = "iris\\" + input; chosen = iris_str; }
-    if(input == "wine_classified.csv") { wine_str = "wine\\" + input; chosen = wine_str; }
-    if(input == "beans_classified.csv") { beans_str = "beans\\" + input; chosen = beans_str; }
+    if(input == "iris_classified.csv") { iris_str = "iris/" + input; chosen = iris_str; }
+    if(input == "wine_classified.csv") { wine_str = "wine/" + input; chosen = wine_str; }
+    if(input == "beans_classified.csv") { beans_str = "beans/" + input; chosen = beans_str; }
     
     return chosen;
 }
@@ -92,13 +92,14 @@ int get_labels_number(string csv_type) {
 }
 
 //Getting input from the client and fetching the results to the disnaces functions
-int main(int argc, char* argv[])
-{ 
+int main(int argc, char* argv[]) {
 
     int k = atoi(argv[1]);
     string csv_type = argv[2];
     string distance_function = argv[3];
     check_args(k, csv_type, distance_function);
+
+
 
     string vec_input;
     getline(cin, vec_input);
@@ -106,14 +107,18 @@ int main(int argc, char* argv[])
     int vec_size = vec.size();
     check_size(vec_size, csv_type);
 
+
+
     string chosen = fetch_path(csv_type);
     Data d(chosen);
     d.generate_data();
     vector<vector<double> > x_train = d.get_x_train();
-    //print_vec(x_train);
     vector<int> y_train = d.get_y_train();
     int labels_number = get_labels_number(csv_type);
+
+
+
     int imax = KNN(x_train, y_train, vec, k, distance_function, labels_number);
     string classification = get_label_classify(csv_type, imax);
-    cout << "The classification is: " << classification;
+    cout << "The classification is: " << classification << "\n";
 }

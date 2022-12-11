@@ -4,14 +4,11 @@
 using namespace std;
 
 
-vector< pair<double, int> > bubbleSort(vector< pair<double, int> > v) {
-  for (int i = 0; i < v.size() - 1; i++) {
-    for (int j = 0; j < v.size() - 1 - i; j++) {
-      if (v[j].first > v[j + 1].first) {
-        pair<double, int> temp = v[j];
-        v[j] = v[j + 1];
-        v[j + 1] = temp;
-      }
+vector< pair<double, int> > bubbleSort(vector< pair<double, int> > v, int size) {
+  for (int i = 0; i < size - 1; i++) {
+    for (int j = 0; j < size - 1 - i; j++) {
+      if (v[j].first > v[j + 1].first) {    
+        std::swap(v[j], v[j + 1]); }
     }
   }
   return v;
@@ -19,6 +16,7 @@ vector< pair<double, int> > bubbleSort(vector< pair<double, int> > v) {
 
 // Find k nearest neighbors of point sample
 int KNN(vector< vector<double> > x_train, vector<int> y_train, vector<double> sample, int k, string func, int labels_number) {
+
     vector< pair<double, int> > distances;
     int vec_size = x_train.size();
   
@@ -32,33 +30,21 @@ int KNN(vector< vector<double> > x_train, vector<int> y_train, vector<double> sa
         if(func == "MIN") { distance = minkowski_distance_function(sample, x_train[i]); }
         distances.push_back(make_pair(distance, i));
     }
+    
+    int size = x_train.size();
+    vector< pair<double, int> > sorted = {};
+    sorted = bubbleSort(distances, size);
 
-    vector< pair<double, int> > sorted;
-    sorted = bubbleSort(distances);
-    // for (int i =0; i < sorted.size(); i++) { cout << "double: " << sorted[i].first << " int: " << sorted[i].second << " label: " << y_train[i]<< "\n"; } /***/
     int monim[labels_number];
-
     vector<int> neighbors = {};
-    if ( k < sorted.size()) {
-      for (int i = 0; i < k; i++) { 
-        neighbors.push_back(sorted[i].second); 
-      }
-    }
-   else { return -1;  }
 
+    for (int i = 0; i < k; i++) { neighbors.push_back(sorted[i].second); }
     for(int i = 0; i < labels_number; i++) { monim[i] = 0; }
-
-    // for(int i =0; i < labels_number; i++){ cout << monim[i] << " ";} cout << "\n";  /**/
-
     for (int i = 0; i < neighbors.size(); i++) {
         monim[y_train[neighbors[i]]]++; 
     }
 
-    //cout << "\n";
-    // for(int i =0; i < labels_number; i++){ cout << monim[i] << " ";} /**/
-
-    int imax = 0;
-    int max = 0;
+    int imax = 0; int max = 0;
     for (int i = 0; i < labels_number; i++) {
         if (monim[i] > max) { max = monim[i]; imax = i; }
     }
