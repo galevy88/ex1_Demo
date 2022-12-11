@@ -19,11 +19,14 @@ vector<double> Data::parser(string string_Vector, int stop_idx) {
 
 
 string Data::reverse(string str) {
-    int i = str.size() - 1;
-    string true_label;
-    for(i; i > 0; i--) { true_label += str[i]; }
-    return true_label;
-}
+    if(str != ""){
+        int i = str.size() - 1;
+        string true_label;
+        for(i; i > 0; i--) { true_label += str[i]; }
+        return true_label;
+        }
+    else { string s = ""; return s;}
+    }
 
 int Data::get_label_number(string label) {
     
@@ -47,19 +50,21 @@ int Data::get_label_number(string label) {
 }
 
 void Data::create_split(string line, vector<double>& vec, int& label_num) {
-    int line_length = line.size(); 
-    int i = line_length;
-    string label = "";
-    int idx_of_split;
-    for(i; i > 0; i--) {
-        if(line[i] == ',') { idx_of_split = i; break; }
-        else{ label += line[i]; }
+    if(line != "") {
+        int line_length = line.size(); 
+        int i = line_length;
+        string label = "";
+        int idx_of_split;
+        for(i; i > 0; i--) {
+            if(line[i] == ',') { idx_of_split = i; break; }
+            else{ label += line[i]; }
+        }
+        string r = reverse(label);
+        //cout << label.size() << " " << r.size() << "\n";
+        label_num = get_label_number(r);
+        //cout << reverse(label) << " " << label_num << "\n";
+        vec = parser(line, idx_of_split);
     }
-    string r = reverse(label);
-    //cout << label.size() << " " << r.size() << "\n";
-    label_num = get_label_number(r);
-    //cout << reverse(label) << " " << label_num << "\n";
-    vec = parser(line, idx_of_split);
 }
 
 
