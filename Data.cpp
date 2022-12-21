@@ -1,7 +1,7 @@
 #include "header.h"
 #include "Data.h"
 
-
+// parser data
 vector<double> Data::parser(string string_Vector, int stop_idx) {
     vector<double> Vector;
     string current;
@@ -18,7 +18,7 @@ vector<double> Data::parser(string string_Vector, int stop_idx) {
     return Vector;
 }
 
-
+// rvrs string
 string Data::reverse(string str) {
     int i = str.size() - 1;
     string true_label;
@@ -26,6 +26,7 @@ string Data::reverse(string str) {
     return true_label;
     }
 
+//given label string return int
 int Data::get_label_number(string label) {
     
     if(label == "Iris-setosa") { return 0; }
@@ -47,6 +48,7 @@ int Data::get_label_number(string label) {
     return -1;
 }
 
+// create split of str by ","
 void Data::create_split(string line, vector<double>& vec, int& label_num) {
     if(line != "") {
         int line_length = line.size(); 
@@ -63,12 +65,12 @@ void Data::create_split(string line, vector<double>& vec, int& label_num) {
     }
 }
 
-
+// getters
 vector<vector<double>> Data::get_x_train() { return this->x_train; }
 vector<int> Data::get_y_train() { return this->y_train; }
 
 
-
+// generate data from csv file
 void Data::generate_data() {
     ifstream inputFile; inputFile.open("datasets/" + this->path);
     if (!inputFile.good()) { std::cerr << "Error: unable to open file " << this->path << std::endl << " Probably check if you are using Win or Linux"; return; }
@@ -83,6 +85,7 @@ void Data::generate_data() {
     } 
 }
 
+// Ctor
 Data::Data(const string path) {
     this->path = path;
     this->x_train;

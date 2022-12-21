@@ -38,13 +38,13 @@ vector<double> parser(string string_Vector) {
         if(string_Vector[i] == ' ' || string_Vector[i] == '\0') 
         {
             try { Vector.push_back(stod(current)); current = ""; } 
-            catch (...) { cout << "Invalid Input - Please Refer To README.md File And Try Again :)"; exit(0); }
+            catch (...) { cout << "Invalid Input - Please Refer To README.md File And Try Again :)\nWe closed the program for you until you will read the read me file.\nPlease read the README.md file and run this program another time\n"; exit(0); }
         }
         else { current += string_Vector[i]; }
     }
     return Vector;
 }
-
+// get lbl str by lbl int
 string get_label_classify(string csv_type, int label) {
     string s = "";
     if (csv_type == "iris_classified.csv") {
@@ -73,7 +73,7 @@ string get_label_classify(string csv_type, int label) {
     return s;
 }
 
-
+// print vector - depricated
 void print_vec(vector<vector<double> > x_train) {
     for(int i =0; i < x_train.size(); i++) {
         for(int j =0; j < x_train[i].size(); j++) {
@@ -83,7 +83,7 @@ void print_vec(vector<vector<double> > x_train) {
     }
 }
 
-
+// get how much label exist for each dataset
 int get_labels_number(string csv_type) {
     if(csv_type == "iris_classified.csv")  { return 3; }
     if(csv_type == "wine_classified.csv") { return 3; }
@@ -93,32 +93,36 @@ int get_labels_number(string csv_type) {
 
 //Getting input from the client and fetching the results to the disnaces functions
 int main(int argc, char* argv[]) {
-
-    int k = atoi(argv[1]);
-    string csv_type = argv[2];
-    string distance_function = argv[3];
-    check_args(k, csv_type, distance_function);
-
-
-
-    string vec_input;
-    getline(cin, vec_input);
-    vector<double> vec = parser(vec_input);    
-    int vec_size = vec.size();
-    check_size(vec_size, csv_type);
+    //The code will always run and wait for the next output from the user endlessly
+    if (argc != 4) { cout << "Invalid Input - Please Refer To README.md File And Try Again :)\nWe closed the program for you until you will read the read me file.\nPlease read the README.md file and run this program another time\n"; exit(0); }
+    while (true)
+    {
+        int k = atoi(argv[1]);
+        string csv_type = argv[2];
+        string distance_function = argv[3];
+        check_args(k, csv_type, distance_function);
 
 
-
-    string chosen = fetch_path(csv_type);
-    Data d(chosen);
-    d.generate_data();
-    vector<vector<double> > x_train = d.get_x_train();
-    vector<int> y_train = d.get_y_train();
-    int labels_number = get_labels_number(csv_type);
-
+        string vec_input;
+        getline(cin, vec_input);
+        if(vec_input == "-1") { exit(0); }
+        vector<double> vec = parser(vec_input);    
+        int vec_size = vec.size();
+        check_size(vec_size, csv_type);
 
 
-    int imax = KNN(x_train, y_train, vec, k, distance_function, labels_number);
-    string classification = get_label_classify(csv_type, imax);
-    cout << "The classification is: " << classification << "\n";
+        string chosen = fetch_path(csv_type);
+        Data d(chosen);
+        d.generate_data();
+        vector<vector<double> > x_train = d.get_x_train();
+        vector<int> y_train = d.get_y_train();
+        int labels_number = get_labels_number(csv_type);
+
+
+        int imax = KNN(x_train, y_train, vec, k, distance_function, labels_number);
+        string classification = get_label_classify(csv_type, imax);
+        cout << "The classification is: " << classification << "\n";
+
+        vec_input = "";
+    }
 }
