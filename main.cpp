@@ -91,9 +91,9 @@ int get_labels_number(string csv_type) {
     return -1;
 }
 
-//Getting input from the client and fetching the results to the disnaces functions
-int main(int argc, char* argv[]) {
-    //The code will always run and wait for the next output from the user endlessly
+
+void handle_process(int argc, char* argv[]) {
+ //The code will always run and wait for the next output from the user endlessly
     if (argc != 4) { cout << "Invalid Input - Please Refer To README.md File And Try Again :)\nWe closed the program for you until you will read the read me file.\nPlease read the README.md file and run this program another time\n"; exit(0); }
     while (true)
     {
@@ -125,4 +125,9 @@ int main(int argc, char* argv[]) {
 
         vec_input = "";
     }
+}
+
+//Getting input from the client and fetching the results to the disnaces functions
+int main(int argc, char* argv[]) {
+   handle_process(argc, argv);
 }
