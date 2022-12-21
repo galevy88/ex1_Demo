@@ -5,7 +5,7 @@
 #include <arpa/inet.h>
 #include <unistd.h>
 #include <string.h>
-
+// Gal
 int main() {
   // Create a TCP client socket
   int client_socket = socket(AF_INET, SOCK_STREAM, 0);
