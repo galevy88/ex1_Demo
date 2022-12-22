@@ -1,22 +1,21 @@
 #include "header.h"
 #include "Data.h"
 
-
 using namespace std;
 
 // Check either the vectors are with the sae ssize or not
-void check_size(int size, string csv_type) {
-    if(csv_type == "iris_classified.csv") { if( size != 4) { cout << "Invalid Input - Please Refer To README.md File And Try Again :)"; exit(0); } }
-    if(csv_type == "wine_classified.csv") { if( size != 13) {cout << "Invalid Input - Please Refer To README.md File And Try Again :)"; exit(0); } }
-    if(csv_type == "beans_classified.csv") { if( size != 16) { cout << "Invalid Input - Please Refer To README.md File And Try Again :)"; exit(0); } }
+bool check_size(int size, string csv_type) {
+    if(csv_type == "iris_classified.csv") { if( size != 4) { return false; } }
+    if(csv_type == "wine_classified.csv") { if( size != 13) { return false; } }
+    if(csv_type == "beans_classified.csv") { if( size != 16) { return false; } }
+    return true;
 }
 
-void check_args(int size, string csv_type, string dist_func) {
-    if(size < 1 || size > 100) { cout << "Invalid Input - Please Refer To README.md File And Try Again :)"; exit(0); }
-    if(csv_type != "beans_classified.csv" && csv_type != "iris_classified.csv" && csv_type != "wine_classified.csv") { 
-        cout << "Invalid Input - Please Refer To README.md File And Try Again :)"; exit(0); }
-    if(dist_func != "AUC" && dist_func != "MAN" && dist_func != "CHB" && dist_func != "CAN" && dist_func != "MIN") {
-         cout << "Invalid Input - Please Refer To README.md File And Try Again :)"; exit(0); }
+bool check_args(int size, string csv_type, string dist_func) {
+    if(size < 1 || size > 100) { return false; }
+    if(csv_type != "beans_classified.csv" && csv_type != "iris_classified.csv" && csv_type != "wine_classified.csv") { return false; }
+    if(dist_func != "AUC" && dist_func != "MAN" && dist_func != "CHB" && dist_func != "CAN" && dist_func != "MIN") { return false; }
+    return true;
 }
 
 string fetch_path(string input) {
@@ -92,42 +91,30 @@ int get_labels_number(string csv_type) {
 }
 
 
-void handle_process(int argc, char* argv[]) {
- //The code will always run and wait for the next output from the user endlessly
-    if (argc != 4) { cout << "Invalid Input - Please Refer To README.md File And Try Again :)\nWe closed the program for you until you will read the read me file.\nPlease read the README.md file and run this program another time\n"; exit(0); }
-    while (true)
-    {
-        int k = atoi(argv[1]);
-        string csv_type = argv[2];
-        string distance_function = argv[3];
-        check_args(k, csv_type, distance_function);
+string handle_process(int k, string csv_type, string distance_function, string vec_input) {
+
+    string ret_str = "";
+    if(!check_args(k, csv_type, distance_function)) { ret_str = "Invalid Input"; return ret_str;}
+
+    if(vec_input == "-1") { exit(0); }
+    vector<double> vec = parser(vec_input);    
+    int vec_size = vec.size();
+    if(!check_size(vec_size, csv_type)) { ret_str = "Invalid Input"; return ret_str;}
+    
 
 
-        string vec_input;
-        getline(cin, vec_input);
-        if(vec_input == "-1") { exit(0); }
-        vector<double> vec = parser(vec_input);    
-        int vec_size = vec.size();
-        check_size(vec_size, csv_type);
+    string chosen = fetch_path(csv_type);
+    Data d(chosen);
+    d.generate_data();
+    vector<vector<double> > x_train = d.get_x_train();
+    vector<int> y_train = d.get_y_train();
+    int labels_number = get_labels_number(csv_type);
 
 
-        string chosen = fetch_path(csv_type);
-        Data d(chosen);
-        d.generate_data();
-        vector<vector<double> > x_train = d.get_x_train();
-        vector<int> y_train = d.get_y_train();
-        int labels_number = get_labels_number(csv_type);
+    int imax = KNN(x_train, y_train, vec, k, distance_function, labels_number);
+    string classification = get_label_classify(csv_type, imax);
+    ret_str = "The classification is: " + classification;
 
-
-        int imax = KNN(x_train, y_train, vec, k, distance_function, labels_number);
-        string classification = get_label_classify(csv_type, imax);
-        cout << "The classification is: " << classification << "\n";
-
-        vec_input = "";
-    }
-}
-
-//Getting input from the client and fetching the results to the disnaces functions
-int main(int argc, char* argv[]) {
-   handle_process(argc, argv);
+    vec_input = "";
+    return ret_str;
 }

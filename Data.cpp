@@ -1,6 +1,7 @@
 #include "header.h"
 #include "Data.h"
 
+using namespace std;
 // parser data
 vector<double> Data::parser(string string_Vector, int stop_idx) {
     vector<double> Vector;
