@@ -79,7 +79,6 @@ int server_response() {
     int bytes_received = recv(client_fd, message, 1024, 0);
     if (bytes_received < 0) { std::cerr << "Error receiving message" << std::endl; return 1; }
     if (strcmp(message, "-1") == 0) { close(client_fd); }
-
     
     std::string vec; std::string distance_function; int k;
     if(!extract_regions(message, vec, distance_function, k)) {
