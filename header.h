@@ -14,6 +14,8 @@
 #include <arpa/inet.h>
 #include <unistd.h>
 #include <string.h>
+#include <cstdio>
+#include <cstring>
 
 // KNN moudle functions
 std::vector< std::pair<double, int> > bubbleSort(std::vector< std::pair<double, int> > v, int size);

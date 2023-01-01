@@ -1,9 +1,8 @@
 #include "header.h"
 
+bool is_ip(const char* str, char *& parsed_ip) {
+  parsed_ip = new char[32];
 
-// Check if the char* variable contains a valid IP address
-bool is_ip(const char* str) {
-  // Split the string into octets
   std::string octets[4];
   int octet_index = 0;
   for (int i = 0; i < strlen(str); i++) {
@@ -14,16 +13,28 @@ bool is_ip(const char* str) {
     octets[octet_index] += str[i];
   }
 
-  // Check if each octet is a valid number between 0 and 255
   for (int i = 0; i < 4; i++) {
     int octet;
-    try {
-      octet = std::stoi(octets[i]);
-    } catch (const std::invalid_argument&) {
-      return false;
-    }
+    try { octet = std::stoi(octets[i]); }
+    catch (...) { return false; }
     if (octet < 0 || octet > 255) return false;
   }
+
+  char buffer1[32];
+  std::sprintf(buffer1, "%d", std::stoi(octets[0]));
+  char buffer2[32];
+  std::sprintf(buffer2, "%d", std::stoi(octets[1]));
+  char buffer3[32];
+  std::sprintf(buffer3, "%d", std::stoi(octets[2]));
+  char buffer4[32];
+  std::sprintf(buffer4, "%d", std::stoi(octets[3]));
+  std::strcpy(parsed_ip, buffer1);
+  std::strcat(parsed_ip, ".");
+  std::strcat(parsed_ip, buffer2);
+  std::strcat(parsed_ip, ".");
+  std::strcat(parsed_ip, buffer3);
+  std::strcat(parsed_ip, ".");
+  std::strcat(parsed_ip, buffer4);
 
   return true;
 }
@@ -72,9 +83,10 @@ while (true) {
 int main(int argc, char* argv[]) {
   char * ip = argv[1];
   int port = atoi(argv[2]);
-  if(!is_ip(ip)) { std::cout << "Invalid Input"; exit(0); }
+  char * parsed_ip;
+  if(!is_ip(ip, parsed_ip)) { std::cout << "Invalid Input"; exit(0); }
   if(!is_port(port)) { std::cout << "Invalid Input"; exit(0); }
 
-  client_request(ip, port);
+  client_request(parsed_ip, port);
   return 0;
 }
